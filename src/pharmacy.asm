@@ -54,15 +54,15 @@
     sinopharm_sold dw 0
     pfizer_sold dw 0
     
-    price_panadol dw 4
-    price_paracetamol dw 3
-    price_cleritek dw 2    
-    price_aspirin dw 2
-    price_brufen dw 1
-    price_surbex dw 5    
-    price_arinac dw 4
-    price_sinopharm dw 2
-    price_pfizer dw 8
+    price_panadol db 4
+    price_paracetamol db 3
+    price_cleritek db 2    
+    price_aspirin db 2
+    price_brufen db 1
+    price_surbex db 5    
+    price_arinac db 4
+    price_sinopharm db 2
+    price_pfizer db 8
     
     panadol_print db 10,13, 'Panadols sold = $'
     pfizer_print db 10,13, 'Pfizer Vaccine sold = $'
@@ -635,7 +635,8 @@ statsMedicines proc
     mov ah,9
     lea dx,panadol_print
     int 21h
-    mov ax,panadol_sold 
+    mov ax,panadol_sold
+    div price_panadol 
     mov x,ax
     call output
     
@@ -643,6 +644,7 @@ statsMedicines proc
     lea dx,paracetamol_print
     int 21h
     mov ax,paracetamol_sold
+    div price_paracetamol
     mov x,ax
     call output
     
@@ -650,6 +652,7 @@ statsMedicines proc
     lea dx,cleritek_print
     int 21h
     mov ax,cleritek_sold
+    div price_cleritek
     mov x,ax
     call output
     
@@ -657,6 +660,7 @@ statsMedicines proc
     lea dx,aspirin_print
     int 21h
     mov ax,aspirin_sold
+    div price_aspirin
     mov x,ax
     call output
     
@@ -664,6 +668,7 @@ statsMedicines proc
     lea dx,brufen_print
     int 21h
     mov ax,brufen_sold
+    div price_brufen
     mov x,ax
     call output
     
@@ -671,6 +676,7 @@ statsMedicines proc
     lea dx,arinac_print
     int 21h
     mov ax,arinac_sold
+    div price_arinac
     mov x,ax
     call output
     
@@ -678,6 +684,7 @@ statsMedicines proc
     lea dx,sinopharm_print
     int 21h
     mov ax,sinopharm_sold
+    div price_sinopharm
     mov x,ax
     call output
     
@@ -685,6 +692,7 @@ statsMedicines proc
     lea dx,pfizer_print
     int 21h
     mov ax,pfizer_sold
+    div price_pfizer
     mov x,ax
     call output
     
