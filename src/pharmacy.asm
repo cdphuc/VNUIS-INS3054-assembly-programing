@@ -1,3 +1,4 @@
+
 .model small
 .stack 100h
 .data 
@@ -24,20 +25,12 @@
     opt3 db 10,13, '3. Cleritek - 2rs$'
     opt4 db 10,13, '4. Aspirin - 2rs$'
     opt5 db 10,13, '5. Brufen - 1rs$'
-    opt6 db 10,13, '6. Surbex Z - 5rs$'
-    opt7 db 10,13, '7. Arinac - 4rs$'
-    opt8 db 10,13, '8. Sinopharm Vaccine - 2rs$'
-    opt9 db 10,13, '9. Pfizer Vaccine - 8rs$'
 
     msg_panadol db 10,13, 'How many panadols do you want to buy: $'
     msg_paracetamol db 10,13, 'How many paracetamol do you want to buy: $'
     msg_cleritek db 10,13, 'How many cleritek do you want to buy: $'
     msg_aspirin db 10,13, 'How many aspirin do you want to buy: $'
     msg_brufen db 10,13, 'How many brufen do you want to buy: $'
-    msg_surbex db 10,13, 'How many subex do you want to buy: $'
-    msg_arinac db 10,13, 'How many arinac do you want to buy: $'
-    msg_sinopharm db 10,13, 'How many Sinopharm Vaccine do you want to buy: $'
-    msg_pfizer db 10,13, 'How many Pfizer Vaccine do you want to buy: $'
     total_msg db 10,13,'Total Earned= $'
 
     amount_earned db 10,13,'Amount earned= $'
@@ -49,26 +42,14 @@
     cleritek_sold dw 0
     aspirin_sold dw 0
     brufen_sold dw 0
-    surbex_sold dw 0
-    arinac_sold dw 0
-    sinopharm_sold dw 0
-    pfizer_sold dw 0
     
     price_panadol db 4
     price_paracetamol db 3
     price_cleritek db 2    
     price_aspirin db 2
     price_brufen db 1
-    price_surbex db 5    
-    price_arinac db 4
-    price_sinopharm db 2
-    price_pfizer db 8
     
     panadol_print db 10,13, 'Panadols sold = $'
-    pfizer_print db 10,13, 'Pfizer Vaccine sold = $'
-    sinopharm_print db 10,13, 'Sinopharm Vaccine sold = $'
-    arinac_print db 10,13, 'Arinac sold = $'
-    surbex_print db 10,13, 'Surbex sold = $'
     aspirin_print db 10,13, 'Aspirin sold = $'
     brufen_print db 10,13, 'Brufen sold = $'
     cleritek_print db 10,13, 'Cleritek sold = $'
@@ -207,22 +188,6 @@ buyMedicines proc
     lea dx,opt5
     mov ah,9
     int 21h
-            
-    lea dx,opt6
-    mov ah,9         
-    int 21h
-        
-    lea dx,opt7
-    mov ah,9
-    int 21h
-        
-    lea dx,opt8
-    mov ah,9
-    int 21h
-            
-    lea dx,opt9
-    mov ah,9
-    int 21h
     
     lea dx,msg1
     mov ah,9
@@ -240,14 +205,6 @@ buyMedicines proc
     je aspirin
     cmp al,'5'
     je brufen
-    cmp al,'6'
-    je surbex
-    cmp al,'7'
-    je arinac
-    cmp al,'8'
-    je sinopharm
-    cmp al,'9'
-    je pfizer
     
     mov ah,9
     lea dx,newLine
@@ -286,28 +243,7 @@ brufen:
     lea dx,msg_brufen
     int 21h
     call methodBrufen
-surbex:
-    mov ah,9
-    lea dx,msg_surbex
-    int 21h
-    call methodSurbex
-arinac:
-    mov ah,9
-    lea dx,msg_arinac
-    int 21h
-    call methodArinac
-sinopharm:
-    mov ah,9
-    lea dx,msg_sinopharm
-    int 21h
-    call methodSinopharm
-pfizer:
-    mov ah,9
-    lea dx,msg_pfizer
-    int 21h
-    call methodPfizer
-            
-    
+                
 buyMedicines endp
 
 methodPanadol proc
@@ -488,148 +424,6 @@ calculateBrufen:
      
 methodBrufen endp
 
-methodSurbex proc
-    mov x,0
-    mov y,0
-    mov bx,10
-inputSurbex:
-    mov ah,1
-    int 21h
-    cmp al,13
-    je calculateSurbex
-    sub al,30h
-    xor ah,ah
-    mov y,ax
-    mov ax,x
-    mul bx
-    add ax,y
-    mov x,ax
-    jmp inputSurbex
-        
-
-calculateSurbex:     
-    mov ax,x   
-    mov z,ax     
-     
-    mov ah,9  
-    lea dx,total_msg  
-    int 21h
-    mov ax,z  
-    mul price_surbex  
-    mov x,ax  
-    add surbex_sold,ax
-    add amount,ax 
-    call output
-    jmp showmenu      
-     
-methodSurbex endp
-
-methodArinac proc
-    mov x,0
-    mov y,0
-    mov bx,10
-inputArinac:
-    mov ah,1
-    int 21h
-    cmp al,13
-    je calculateArinac
-    sub al,30h
-    xor ah,ah
-    mov y,ax
-    mov ax,x
-    mul bx
-    add ax,y
-    mov x,ax
-    jmp inputArinac
-        
-
-calculateArinac:     
-    mov ax,x   
-    mov z,ax     
-     
-    mov ah,9  
-    lea dx,total_msg  
-    int 21h
-    mov ax,z  
-    mul price_arinac  
-    mov x,ax  
-    add arinac_sold,ax
-    add amount,ax
-    call output
-    jmp showmenu      
-     
-methodArinac endp
-
-methodSinopharm proc
-    mov x,0
-    mov y,0
-    mov bx,10
-inputSinopharm:
-    mov ah,1
-    int 21h
-    cmp al,13
-    je calculateSinopharm
-    sub al,30h
-    xor ah,ah
-    mov y,ax
-    mov ax,x
-    mul bx
-    add ax,y
-    mov x,ax
-    jmp inputSinopharm
-
-calculateSinopharm:     
-    mov ax,x   
-    mov z,ax     
-
-    mov ah,9  
-    lea dx,total_msg  
-    int 21h
-    mov ax,z  
-    mul price_sinopharm  
-    mov x,ax  
-    add sinopharm_sold,ax 
-    call output
-    jmp showmenu      
-
-methodSinopharm endp
-
-methodPfizer proc
-    mov x,0
-    mov y,0
-    mov bx,10
-inputPfizer:
-    mov ah,1
-    int 21h
-    cmp al,13
-    je calculatePfizer
-    sub al,30h
-    xor ah,ah
-    mov y,ax
-    mov ax,x
-    mul bx
-    add ax,y
-    mov x,ax
-    jmp inputPfizer
-        
-
-calculatePfizer:     
-    mov ax,x   
-    mov z,ax
-
-    mov ah,9  
-    lea dx,total_msg
-    int 21h
-    mov ax,z  
-    mul price_pfizer  
-    mov x,ax  
-    add pfizer_sold,ax
-    add amount,ax 
-    call output
-    jmp showmenu     
-     
-     
-methodPfizer endp
 
 statsMedicines proc
     mov ah,9
@@ -670,33 +464,7 @@ statsMedicines proc
     mov ax,brufen_sold
     div price_brufen
     mov x,ax
-    call output
-    
-    mov ah,9
-    lea dx,arinac_print
-    int 21h
-    mov ax,arinac_sold
-    div price_arinac
-    mov x,ax
-    call output
-    
-    mov ah,9
-    lea dx,sinopharm_print
-    int 21h
-    mov ax,sinopharm_sold
-    div price_sinopharm
-    mov x,ax
-    call output
-    
-    mov ah,9
-    lea dx,pfizer_print
-    int 21h
-    mov ax,pfizer_sold
-    div price_pfizer
-    mov x,ax
-    call output
-    
-    jmp showmenu
+    call output 
     
 
 statsMedicines endp
